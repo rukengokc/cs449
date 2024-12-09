@@ -73,13 +73,13 @@ def get_eye_aspect_ratio(landmarks, eye_points):
 
 cap = cv2.VideoCapture(0)
 if not cap.isOpened():
-    print("Kamera açılamadı. Lütfen bağlantıyı kontrol edin.")
+    print("The camera could not be opened. Please check the connection.")
     exit()
 
 while True:
     ret, frame = cap.read()
     if not ret:
-        print("Kamera çerçevesi alınamadı.")
+        print("Failed to capture camera frame.")
         break
 
     frame = cv2.resize(frame, (frame_width, frame_height))
