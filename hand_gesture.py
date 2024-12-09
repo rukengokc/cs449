@@ -1,10 +1,8 @@
 import cv2
 import mediapipe as mp
 
-
 mp_hands = mp.solutions.hands
 mp_draw = mp.solutions.drawing_utils
-
 
 def is_thumbs_up(hand_landmarks, frame_height, frame_width):
     # Convert bookmark locations to pixel coordinates
@@ -19,9 +17,10 @@ def is_thumbs_up(hand_landmarks, frame_height, frame_width):
         return True
     return False
 
-
 hands = mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.7)
 cap = cv2.VideoCapture(0)
+
+button_clicked = False  # Butonun tıklanıp tıklanmadığını kontrol etmek için
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -40,16 +39,11 @@ while cap.isOpened():
 
             # Thumbs Up Detection
             if is_thumbs_up(hand_landmarks, frame.shape[0], frame.shape[1]):
-                cv2.putText(frame, "Thumbs Up Detected!", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                button_clicked = True  # Gesture algılandı, buton tıklanmış kabul edilir
 
-            # Get the landmark information and print it to the console
-            for id, lm in enumerate(hand_landmarks.landmark):
-                h, w, c = frame.shape
-                cx, cy = int(lm.x * w), int(lm.y * h)
-
-                # If thumb is in button area
-                if 100 < cx < 300 and 100 < cy < 200:
-                    cv2.putText(frame, "Button Clicked!", (400, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    if button_clicked:
+        # "Button Clicked!" mesajını ekranda göster
+        cv2.putText(frame, "Button Clicked!", (400, 150), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
     cv2.imshow("Hand Gesture Recognition", frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
