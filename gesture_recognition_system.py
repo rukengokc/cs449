@@ -39,7 +39,7 @@ last_direction_time = 0
 direction_display_duration = 1.0  # seconds
 
 def distance(p1, p2):
-    return math.sqrt((p1[0] - p2[0])*2 + (p1[1] - p2[1])*2)
+    return math.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
 
 def detect_scroll_direction(nose_position, last_position):
     if not last_position:
